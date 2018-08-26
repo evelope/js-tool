@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		.box{
+			width: 288px;
+			height: 324px;
+			margin: 50px auto;
+			position: relative;
+		}
+		ul{
+			list-style: none;
+		}
+		ul li{
+			float: left;
+			width: 72px;
+			height: 72px;
+			margin: 12px auto;
+			text-align: center;
+			line-height: 72px;
+			font-size: 18px;
+			font-weight: bolder;
+			cursor: pointer;
+		}
+		.active,ul li:hover{
+			background: #ccc;
+			border: 1px solid skyblue;
+			box-sizing: border-box;
+			color: red;
+		}
+		table {
+			border-collapse: collapse;
+		}
+		table caption{
+			width: 288px;
+		}
+		table caption span{
+			display: inline-block;
+			cursor: pointer;
+			font-size: 24px;
+			font-weight: bolder;
+			text-align: center;
+		}
+		table caption span:nth-child(1),table caption span:nth-child(3){
+			width: 80px;
+			height: 30px;
+			
+		}
+		table caption span:nth-child(2){
+			width: 128px;
+			height: 30px;
+			font-size: 18px;
+		}
+		table caption span:nth-child(2):hover {
+			color: orange;
+		}
+		tr td{
+			width: 40px;
+			height: 40px;
+			text-align: center;
+			line-height: 40px;
+		}
+		/*table thead,table tbody{
+			display: none;
+		}*/
+		table thead tr td{
+			background: #ccc;
+			color: #000;
+			font-size: 20px;
+			font-weight: bolder;
+		}
+		.m{
+			width: 288px;
+			border: 1px solid #ccc;
+			position: absolute;
+			left: 0;
+			top: 36px;
+			display: none;
+		}
+
+	</style>
+</head>
+<body>
+	<script>
+		var box = document.createElement("div");
+		box.className = "box";
+		var table = document.createElement("table");
+		table.border = 1;
+		var c = table.createCaption();
+		c.innerHTML = `<span> < </span><span> 2017年9月 </span><span> > </span>`;
+		var thead = table.createTHead();
+		var tr = thead.insertRow(0);
+		for(var i=0;i<7;i++){
+			var td = tr.insertCell(i);
+			td.innerHTML = ["日","一","二","三","四","五","六"][i]
+			
+		}
+		// 日期
+		var tbody = document.createElement("tbody");
+		for(var i=0;i<6;i++){
+			var tr = tbody.insertRow(i);
+			for(var j=0;j<7;j++){
+				tr.insertCell(j);
+			} 
+		}
+		table.appendChild(tbody);
+		// 月份
+		var divM = document.createElement("div");
+		var divM = document.createElement("div");
+		divM.className = "m";
+		var ul = document.createElement("ul");
+		for(var i=0;i<12;i++){
+			var li = document.createElement("li");
+			li.index = i + 1;
+			li.innerHTML =  ["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"][i];
+			ul.appendChild(li);
+		}
+		divM.appendChild(ul);
+		box.appendChild(divM);
+		box.appendChild(table);
+		document.body.appendChild(box);
+
+		// 当前年月
+		var currentYear = 2017;
+		var currentMonth = 10;
+		var show = true; // 显示日期
+		change(currentYear,currentMonth);
+		// 左右按钮的点击事件
+		c.children[0].onclick = function(){
+			if(show){
+				currentMonth--;
+				if(currentMonth < 1){
+					currentMonth = 12;
+					currentYear--;
+				}
+			}else{
+				currentMonth = 1;
+				clear(currentMonth - 1);
+				currentYear--;
+			}
+
+			change(currentYear,currentMonth);
+		}
+		c.children[1].onclick = function(){
+			if(show){
+				thead.style.display = "none";
+				tbody.style.display = "none";
+				divM.style.display = "block";
+				clear(currentMonth - 1);
+				this.innerHTML = currentYear;
+			}else{
+				thead.style.display = "block";
+				tbody.style.display = "block";
+				divM.style.display = "none";
+				this.innerHTML = currentYear + "年" + currentMonth + "月";
+			}
+			show = !show;
+		}
+		
+		c.children[2].onclick = function(){
+			
+			if(show){
+				currentMonth++;
+				if(currentMonth > 12){
+					currentMonth = 1;
+					currentYear++;
+				}
+			}else{
+				currentMonth = 1;
+				clear(currentMonth - 1);
+				currentYear++;
+			}
+			change(currentYear,currentMonth);
+		}
+		// 事件委托
+		divM.onclick = function(evt){
+			var e = evt || window.event;
+			var target = e.target || e.srcElement;
+			if(target.tagName == "LI"){
+				thead.style.display = "block";
+				tbody.style.display = "block";
+				divM.style.display = "none";
+				show = true;
+				currentMonth = target.index;
+				change(currentYear,currentMonth);
+			}
+		}
+
+		function change(currentYear,currentMonth){
+			// 获取当前月的天数
+			var currentDays = getDays(currentYear,currentMonth);
+			// 获取上个月的天数
+			var lastDays = getDays(currentYear,currentMonth - 1);
+			// 当前月的第一天是星期几
+			var first = getFirst(currentYear,currentMonth);
+			if(first == 0) first = 7;
+			var rows = tbody.rows;
+			for(var i=0;i<rows.length;i++){
+				var cells = rows[i].cells;
+				for(var j=0;j<cells.length;j++){
+					cells[j].style.color = "#000";
+					var index = (rows[i].rowIndex - 1)*7 + cells[j].cellIndex;
+					// 上个月的日期
+					if(index < first){
+						cells[j].innerHTML = lastDays - first + index + 1;
+						cells[j].style.color = "#999";
+					}
+					// 当前月的日期
+					if(index >= first && index < first + currentDays){
+						cells[j].innerHTML = index - first + 1;
+					}
+					// 下个月的日期
+					if(index >= first + currentDays){
+						cells[j].innerHTML = index - first - currentDays + 1;
+						cells[j].style.color = "#999";
+					}
+				}
+			}
+			c.children[1].innerHTML = currentYear + (show ? "年" + currentMonth + "月" : "");
+		}
+
+		function getFirst(year,month){
+			return new Date(year,month - 1,1).getDay();
+		}
+		// 获取指定月份的天数
+		function getDays(year,month){
+			return new Date(year,month,0).getDate();
+		}
+		// 清除月份上类名的函数
+		function clear(index){
+			var lis = divM.firstElementChild.children;
+			for(var i=0;i<lis.length;i++){
+				if(i == index){
+					lis[i].className = "active";
+				}else{
+					lis[i].className = "";
+				}
+			}
+		}
+
+	</script>
+</body>
+</html>	

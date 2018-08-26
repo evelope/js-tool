@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>放大镜</title>
+	<style>
+		
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		
+		#box{
+			margin: 50px auto;
+			margin-bottom: 0;
+			border: 1px solid #666;
+			overflow: hidden;
+			display: flex;
+			width: calc(576px * 2);
+		}
+		#left{
+			width: 576px;
+			height: 360px;
+			border: 1px solid #ccc;
+			/*box-sizing: border-box;*/
+			position: relative;
+			overflow: hidden;
+			
+		}
+		#minImg{
+			width: 576px;
+			height: 360px;
+		}
+		#right{
+			width: 576px;
+			height: 360px;
+			/*border: 1px solid #ccc;
+			box-sizing: border-box;*/
+			float: right;
+			position: relative;
+			overflow: hidden;
+			display: none;
+		}
+		#maxImg{
+			width: 1500px;
+			height: 900px;
+			position: absolute;
+			left: 0;
+			top: 0;
+		}
+		#eye{
+			/*width: 288px;
+			height: 180px;*/
+			background: #5441e6;
+			opacity: .4;
+			position: absolute;
+			left: 0;
+			top: 0;
+			border: 1px solid #999;
+			cursor: move;
+			display: none;
+		}
+		ul{
+			list-style: none;
+			width: calc(576px * 2);
+			height: 100px;
+			border: 1px solid #ccc;
+			border-top: none;
+			margin: 0 auto;
+		}
+		ul li{
+			width: 86px;
+			height: 70px;
+			margin: 15px 5px;
+			border: 1px solid #ccc;
+			box-sizing: border-box;
+			float: left;
+			overflow: hidden;
+			position: relative;
+		}
+		ul li img{
+			width: 74px;
+			height:58px;
+			position: absolute;
+			left: 50%;
+			margin-left: -37px;
+			top: 50%;
+			margin-top: -29px;
+			cursor: pointer;
+			
+		}
+		ul li img:hover{
+			width: 90px;
+			height:70px;
+			left: 50%;
+			margin-left: -45px;
+			top: 50%;
+			margin-top: -35px;
+			transition:margin-left 0.3s, margin-top 0.3s,width 0.3s,height 0.3s;
+		}
+		table{
+			background: white;
+			border-collapse: collapse;
+		}
+		td{
+			border: 1px solid #000;
+			overflow: hidden;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<div id="left">
+			<img src="http://pic9.photophoto.cn/20081128/0033033999061521_b.jpg" alt="" id="minImg">
+			<span id="eye"></span>
+		</div>
+		<div id="right">
+			<img src="http://pic9.photophoto.cn/20081128/0033033999061521_b.jpg" alt="" id="maxImg">
+		</div>
+	</div>
+	<ul id="ul">
+		<li><img src="http://pic9.photophoto.cn/20081128/0033033999061521_b.jpg" alt=""></li>
+		<li><img src="http://pic.58pic.com/58pic/10/97/02/30a58PICH7N.jpg" alt=""></li>
+		<li><img src="http://pic.qiantucdn.com/58pic/25/56/39/583981a13bc61_1024.jpg" alt=""></li>
+		<li><img src="http://pic20.photophoto.cn/20110927/0034034802983209_b.jpg" alt=""></li>
+		<li><img src="http://img02.tooopen.com/images/20150608/tooopen_sy_129103188937.jpg" alt=""></li>
+		<li><img src="http://pic.58pic.com/58pic/11/81/46/57P58PICM4t.jpg" alt=""></li>
+	</ul>
+	<script>
+		var ttr = document.getElementsByTagName("tr");
+	
+		for(i=0;i<ttr.length;i++){
+//			ttr[i].style.background = "red"
+			ttr[i].style=('background','red')
+		}
+//		console.log(eye.currentStyle["width"]);
+		// 获取眼睛的宽高
+		var eyeW = getStyle(eye,"width")
+		,	eyeH = getStyle(eye,"height");
+		// 获取左右盒子的宽高
+		var lrW = getStyle(left,"width")
+		,	lrH = getStyle(left,"height");
+		// 获取盒子的外边距
+		var lM = getStyle(left,"margin");
+		// 获取大盒子的做偏移量
+		var bL = box.offsetLeft
+		,	bT = box.offsetTop;
+		// 获取大图的宽高
+		var maxImgW = getStyle(maxImg,"width")
+		,	maxImgH = getStyle(maxImg,"height");
+		// 设置眼睛的宽高:
+		// 眼睛的宽度比上小图的宽度等于小图的宽度比上大图宽度
+		var eyeW = lrW/maxImgW*lrW
+		,	eyeH = lrH/maxImgH*lrH;
+		eye.setAttribute("style",`width:${eyeW}px;height:${eyeH}px`);
+
+		left.onmouseover = function(){
+			right.style.display = "block";
+			eye.style.display = "block";
+			this.onmousemove = function(evt){
+				var e = evt || window.event;
+				var mouse_x = e.x || e.pageX
+				,	mouse_y = e.y || e.pageY;
+				// 计算眼睛的左上边距
+				var eyeL = mouse_x - eyeW/2 - lM - bL
+				,	eyeT = mouse_y - eyeH/2 - lM - bT;
+				// 流程控制：眼睛不能飞出去
+				if(eyeL <= 0){
+					eyeL = 0;
+				}else if(eyeL >= lrW - eyeW){
+					eyeL = lrW - eyeW;
+				}
+
+				if(eyeT <= 0){
+					eyeT = 0;
+				}else if(eyeT >= lrH - eyeH){
+					eyeT = lrH - eyeH;
+				}
+				// 把结算结果写入到眼睛的样式里
+				eye.style.left = eyeL + "px";
+				eye.style.top = eyeT + "px";
+				// 固定比例
+				var p_x = (lrW - eyeW)/(lrW - maxImgW)
+				,	p_y = (lrH - eyeH)/(lrH - maxImgH);
+				// eyeL/x = p_x;
+				var maxImgL = eyeL/p_x
+				,	maxImgT = eyeT/p_y;
+				maxImg.style.left = maxImgL + "px";
+				maxImg.style.top = maxImgT + "px";
+
+			}
+		}
+		
+		
+		
+		
+		
+		left.onmouseout = function(){
+			right.style.display = "none";
+			eye.style.display = "none";
+		}
+		ul.onclick = function(evt){
+			var e = evt || window.event;
+			var target = e.target || e.srcElement;
+			if(target.nodeName == "IMG"){
+				minImg.src = target.src;
+				maxImg.src = target.src;
+			}
+		}
+		
+		
+		
+		function getStyle(ele,attr){
+			var res = null;
+			if(ele.currentStyle){
+				res = ele.currentStyle[attr];
+			}else{
+				res = window.getComputedStyle(ele,null)[attr];
+			}
+			return parseFloat(res);
+		}
+		
+		
+	</script>
+</body>
+</html>
