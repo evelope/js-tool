@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>备忘录</title>
+    <style>
+        html,
+        body,
+        div,
+        span,
+        applet,
+        object,
+        iframe,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        p,
+        blockquote,
+        pre,
+        a,
+        abbr,
+        acronym,
+        address,
+        big,
+        cite,
+        code,
+        del,
+        dfn,
+        em,
+        img,
+        ins,
+        kbd,
+        q,
+        s,
+        samp,
+        small,
+        strike,
+        strong,
+        sub,
+        sup,
+        tt,
+        var,
+        b,
+        u,
+        i,
+        center,
+        dl,
+        dt,
+        dd,
+        ol,
+        ul,
+        li,
+        fieldset,
+        form,
+        label,
+        legend,
+        table,
+        caption,
+        tbody,
+        tfoot,
+        thead,
+        tr,
+        th,
+        td,
+        article,
+        aside,
+        canvas,
+        details,
+        embed,
+        figure,
+        figcaption,
+        footer,
+        header,
+        hgroup,
+        menu,
+        nav,
+        output,
+        ruby,
+        section,
+        summary,
+        time,
+        mark,
+        audio,
+        video {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            vertical-align: baseline;
+            font-style: initial;
+        }
+
+        i {
+            font-weight: bold;
+        }
+
+        article,
+        aside,
+        details,
+        figcaption,
+        figure,
+        footer,
+        header,
+        hgroup,
+        menu,
+        nav,
+        section {
+            display: block
+        }
+
+        body,
+        html {
+            width: 100%;
+            height: 100%
+        }
+
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-text-size-adjust: none;
+            margin: 0;
+            padding: 0;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
+        }
+
+        ol,
+        ul {
+            list-style: none
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: #ccc
+        }
+
+        blockquote,
+        q {
+            quotes: none
+        }
+
+        blockquote:before,
+        blockquote:after,
+        q:before,
+        q:after {
+            content: '';
+            content: none
+        }
+
+        table {
+            border-collapse: collapse;
+            border-spacing: 0
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            box-sizing: border-box
+        }
+
+        html,
+        input,
+        select,
+        textarea,
+        button,
+        a {
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
+        }
+
+        .noFill {
+            fill: none;
+        }
+
+        body {
+            background: #edf0f1;
+            padding: 80px 0 0 0;
+        }
+
+        header {
+            width: 100%;
+            height: 80px;
+            position: fixed;
+            padding: 15px;
+            top: 0;
+            left: 0;
+            z-index: 5;
+            background: #25b99a;
+            -webkit-box-shadow: 0px 2px 4px rgba(44, 62, 80, 0.15);
+            -moz-box-shadow: 0px 2px 4px rgba(44, 62, 80, 0.15);
+            box-shadow: 0px 2px 4px rgba(44, 62, 80, 0.15);
+            border-bottom-right-radius: 10px;
+            border-bottom-left-radius: 10px;
+        }
+        /* input输入框 */
+
+        header input {
+            width: 100%;
+            height: 50px;
+            float: left;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 400;
+            text-indent: 18px;
+            padding: 0 60px 0 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+            border-top-right-radius: 25px;
+            border-bottom-right-radius: 25px;
+            border: 0px;
+            box-shadow: none;
+            outline: none;
+
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+        /* placeholder */
+
+        header input::-webkit-input-placeholder {
+            color: rgba(255, 255, 255, 0.75);
+        }
+        /* button */
+
+        header button {
+            width: 50px;
+            height: 50px;
+            border-radius: 25px;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            z-index: 2;
+            background: #fff;
+            border: 0px;
+            box-shadow: none;
+            outline: none;
+            cursor: pointer;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+        /* i */
+
+        header button i {
+            width: 16px;
+            height: 16px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: -8px 0 0 -8px;
+        }
+        /* i fill */
+
+        header button i .fill {
+            fill: #25b99a;
+        }
+        /* =============================== */
+
+        .container {
+            width: 100%;
+            float: left;
+            padding: 15px;
+        }
+
+        ul.todo {
+            width: 100%;
+            float: left;
+        }
+
+        ul.todo li {
+            width: 100%;
+            min-height: 50px;
+            float: left;
+            font-size: 14px;
+            font-weight: 500;
+            color: #444;
+            line-height: 22px;
+            word-wrap: break-word;
+            word-break: break-all;
+            overflow: hidden;
+            background: #fff;
+            border-radius: 5px;
+            position: relative;
+            box-shadow: 0px 1px 2px rgba(44, 62, 80, 0.10);
+            margin: 0 0 10px 0;
+            padding: 14px 100px 14px 14px;
+        }
+
+        ul.todo li span {
+            color: #999;
+        }
+
+        ul.todo li:last-of-type {
+            margin: 0;
+        }
+        /* buttons */
+
+        ul.todo li .buttons {
+            width: 100px;
+            height: 50px;
+            position: absolute;
+            top: 50%;
+            margin-top: -25px;
+            right: 0;
+        }
+
+        ul.todo li .buttons button {
+            width: 50px;
+            height: 50px;
+            float: left;
+            background: none;
+            position: relative;
+            border: 0px;
+            box-shadow: none;
+            outline: none;
+            cursor: pointer;
+
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+        /* 两个i之间的线 */
+
+        ul.todo li .buttons button:last-of-type:before {
+            content: "";
+            width: 1px;
+            height: 30px;
+            position: absolute;
+            top: 10px;
+            left: 0;
+            background: #edf0f1;
+        }
+        /* 设置i图片的大小 */
+
+        ul.todo li .buttons button i {
+            width: 22px;
+            height: 22px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: -11px 0 0 -11px;
+        }
+        /* 设置对号i的圆圈 */
+
+        ul.todo li .buttons button.complete i {
+            border-radius: 11px;
+            border: 1.5px solid #25b99a;
+            transition: background 0.2s ease;
+        }
+        /* 设置remove的颜色 */
+
+        ul.todo li .buttons button.remove i .fill {
+            fill: #c0cecb;
+        }
+        /* hover remove改变颜色 */
+
+        ul.todo li .buttons button.remove:hover i .fill {
+            fill: #e85656;
+        }
+        /* remove 动画效果 */
+
+        ul.todo li .buttons button i .fill {
+            transition: fill 0.2s ease;
+        }
+        /* 设置对号的颜色 */
+
+        ul.todo li .buttons button.complete i .fill {
+            fill: #25b99a;
+        }
+        /* 如果当前元素不是#completed,那么让对号变成白色 */
+
+        ul.todo:not(#completed) li .buttons button.complete:hover i .fill {
+            fill: #fff;
+        }
+        /* 如果当前元素不是#completed,那么让背景变成绿色 */
+
+        ul.todo:not(#completed) li .buttons button.complete:hover i {
+            background: rgba(37, 185, 154, 0.75);
+        }
+        /* 如果当前元素是#completed,那么让背景变成绿色 */
+
+        ul.todo#completed li .buttons button.complete i {
+            background: #25b99a;
+            border: 0px;
+        }
+        /* 如果当前元素是#completed,那么让对号变成白色 */
+
+        ul.todo#completed li .buttons button.complete i .fill {
+            fill: #fff;
+        }
+        /* 设置完成列表容器的样式 */
+
+        ul.todo#completed {
+            position: relative;
+            padding: 60px 0 0 0;
+        }
+        /* 如果completed容器中包含内容, 那么在元素钱添加一条线 */
+
+        ul.todo#completed:not(empty):before {
+            content: '';
+            width: 150px;
+            height: 1px;
+            background: #d8e5e0;
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            margin: 0 0 0 -75px;
+        }
+        /*本人信息*/
+
+        .wfg {
+            position: fixed;
+            right: 2%;
+            bottom: 2%;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wfg">
+        备忘录--卫贵飞
+    </div>
+    <header>
+        <form>
+            <input type="text" autofocus placeholder="填写你要保存的内容~~" name="item" id="ipt">
+            <button type="submit" id="cr"><i>＋</i></button>
+        </form>
+    </header>
+    <div class="container">
+        <ul class="todo" id="todo">
+
+        </ul>
+    </div>
+    <script>
+        cr.onclick = function () {
+            console.log(memos)
+            var texx = ipt.value.replace(/^\s+|\s+$/g, '')
+            if (texx) {
+                console.log(texx);
+                var data = localStorage.getItem("memos");
+                if (data) {
+                    //已经存储过之后
+                    data = JSON.parse(data);
+                    data.push('<span>' + new Date().toLocaleString() + "</span>  " + texx);
+                } else {
+                    //第一次保存，存储里还没有值的时候
+                    data = ['<span>' + new Date().toLocaleString() + "</span>  " + texx];
+                }
+                localStorage.setItem("memos", JSON.stringify(data));
+            }
+        }
+
+
+        var memos = localStorage.getItem("memos");
+
+        function rem(that) {
+            console.log(that)
+            var li = that.parentNode.parentNode;
+            var child = document.querySelectorAll('#todo>li')
+            for (var i = 0; i < child.length; i++) {
+                var a = child[i];
+                a.index = i; //给每个className为child的元素添加index属性;
+            }
+            console.log(li)
+            memos.splice(li.index, 1);
+            localStorage.setItem("memos", JSON.stringify(memos));
+            that.parentNode.parentNode.parentNode.removeChild(that.parentNode.parentNode);
+        };
+        // 先获取到存储里的所有数据
+        if (memos) {
+            memos = JSON.parse(memos);
+            var str = "";
+            memos.forEach(function (v) {
+                str +=
+                    `<li>
+                        <span></span>${v}
+                        <div class="buttons">
+                            <button onclick="rem(this)" id="remove" class="remove"><i>🗑</i></button>
+                            <button class="complete"><i>✔</i></button>
+                        </div>
+                    </li>`
+            })
+            todo.innerHTML = str;
+        }
+        // console.log(new Date().toLocaleString())
+    </script>
+</body>
+
+</html>
