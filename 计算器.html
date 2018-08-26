@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>js1</title>
+	<link rel="shortcut icon" href="http://img1.mukewang.com/55e521190001988f06400640-100-100.jpg">
+	<style>
+		body {
+			background: pink;
+		}
+
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		a {
+			text-decoration: none;
+			color: black;
+			cursor: pointer;
+		}
+
+		#box {
+			margin: 0px auto;
+			background: skyblue;
+			width: 400px;
+			height: 500px;
+			border-radius: 30px;
+			overflow: hidden;
+			box-shadow: -20px 20px 30px #440106, 0 0 50px #00FF00 inset;
+			background: linear-gradient(to right, #00b09b, #96c93d);
+		}
+
+		input {
+			display: block;
+			width: 100%;
+			line-height: 40px;
+			border: none;
+			box-sizing: border-box;
+			background: skyblue;
+			text-align: right;
+			font-size: 20px;
+			color: red;
+			padding-right: 20px;
+			outline: none;
+		}
+
+		@keyframes g {
+			0% {
+				transform: scale(1, 1);
+			}
+			25% {
+				transform: scale(0.9, 1.1);
+			}
+			50% {
+				transform: scale(1.1, 0.9);
+			}
+			75% {
+				transform: scale(0.95, 1.05);
+			}
+		}
+
+		#fh {
+			width: 40px;
+			height: 40px;
+			background: wheat;
+			color: red;
+			margin: 0 auto;
+			text-align: center;
+			margin-left: auto !important;
+			line-height: 40px;
+			border-radius: 30%;
+			font-size: 22px;
+			font-weight: bold;
+			cursor: pointer;
+			box-shadow: 0 0 20px deepskyblue, 5px -5px 35px #0006FF inset;
+			position: relative;
+			z-index: 999;
+			animation: g 1s infinite;
+		}
+
+		#bigfh {
+			position: relative;
+		}
+
+		#bigfh span {
+			display: inline-block;
+			position: absolute;
+			left: 200px;
+			top: 5px;
+			line-height: 30px;
+			height: 30px;
+			width: 0;
+			overflow: hidden;
+			border-radius: 10px;
+			transition: width 1s;
+			background: #CCCCCC;
+		}
+
+		#bigfh span a {
+			display: inline-block;
+			height: 30px;
+			width: 30px;
+			float: right;
+			line-height: 30px;
+			text-align: center;
+			background: #CCCCCC;
+			color: red;
+		}
+
+		#fh:hover+span {
+			width: 170px;
+		}
+
+		#bigfh span:hover {
+			width: 170px;
+		}
+
+		#down {
+			width: 282px;
+			background: white;
+			height: 340px;
+			float: left;
+		}
+
+		#down a {
+			display: inline-block;
+			width: 94px;
+			background: white;
+			float: left;
+			text-align: center;
+			line-height: 90px;
+			height: 90px;
+			font-size: 30px;
+			transition: all 0.3s;
+		}
+
+		#down a:nth-child(10) {
+			line-height: 70px;
+			height: 70px;
+			width: 212px;
+		}
+
+		#down a:last-child {
+			line-height: 70px;
+			width: 70px;
+			height: 70px;
+		}
+
+		#down a:hover {
+			font-size: 40px;
+		}
+
+		#fh5 {
+			width: 55px;
+			height: 340px;
+			float: left;
+		}
+
+		#fh5 a {
+			width: 100%;
+			display: inline-block;
+			line-height: 58px;
+			text-align: center;
+			background: #ccc;
+			border-bottom: 10px solid #440106;
+			font-size: 25px;
+		}
+
+		#zh {
+			float: left;
+			width: 63px;
+			background: black;
+			height: 340px;
+		}
+
+		#zh a {
+			width: 100%;
+			display: inline-block;
+			line-height: 170px;
+			color: white;
+			text-align: center;
+			font-weight: bolder;
+			font-size: 30px;
+		}
+
+		a:hover {
+			border-radius: 50% !important;
+			background: pink;
+			box-shadow: 0 0 20px deeppink inset;
+			transition: background 0.3s, border-radius 0.3s, box-shadow 0.3s;
+		}
+
+		a:active {
+			background: blue !important;
+			transition: background 0.3s !important;
+		}
+
+		#ts {
+			text-align: center;
+			margin-top: 20px;
+			line-height: 30px;
+			font-size: 25px;
+			color: red;
+		}
+	</style>
+
+</head>
+
+<body>
+
+	<canvas style="position: absolute;left: 0; top: 0; z-index: 1;"></canvas>
+	<p id="ts" style="position: relative;  z-index: 9999;">只能写数字或小数哦~</p>
+	<div id="bigbox" style="position: relative;width: 920px; margin: 0 auto; z-index: 9999;">
+		<p id="jianpan" style="color: green; position:absolute;right: 0;line-height: 40px;padding-left: 60px; background: url(zz.gif) no-repeat left center ; background-size:contain ;">也可以直接用键盘输入呦~</p>
+		<div id="box">
+			<div id="top">
+				<input type="text" name="" id="txt1" placeholder="第一个数字">
+				<div id="bigfh">
+					<span style="width: 200px; left: 0;font-size:12px;color:#FF00E4;padding-left: 15px;">鼠标划过可以选择运算符哦→</span>
+					<p id="fh"></p>
+					<span>
+							<a>%</a>
+							<a>÷</a>
+							<a>×</a>
+							<a>-</a> 
+							<a>+</a>
+						</span>
+				</div>
+				<input type="text" name="" id="txt2" placeholder="第二个数字">
+				<input type="text" name="" id="result" placeholder="答案" readonly>
+			</div>
+			<div id="down">
+				<a>1</a>
+				<a>2</a>
+				<a>3</a>
+				<a>4</a>
+				<a>5</a>
+				<a>6</a>
+				<a>7</a>
+				<a>8</a>
+				<a>9</a>
+				<a>0</a>
+				<a>.</a>
+			</div>
+			<div id="fh5">
+				<a>+</a>
+				<a>-</a>
+				<a>×</a>
+				<a>÷</a>
+				<a>%</a>
+			</div>
+			<div id="zh">
+				<a>AC</a>
+				<a>=</a>
+			</div>
+
+		</div>
+	</div>
+	<script>
+		//			for(var i =1;i<=6;i++){
+		//				document.write(`<h${i}>标题${i}</h${i}>`);
+		//			}
+		//			for(var i =1;i<=6;i++){
+		//				document.write("<h"+i+">标题"+i+"</h"+i+">");
+		//			}
+		'use strict';
+
+		// Initial Setup
+		var canvas = document.querySelector('canvas');
+		var c = canvas.getContext('2d');
+
+		canvas.width = innerWidth;
+		canvas.height = innerHeight;
+
+		// Variables
+		var mouse = {
+			x: innerWidth / 2,
+			y: innerHeight / 2 - 80
+		};
+
+		var colors = ['#00bdff', '#4d39ce', '#088eff'];
+
+		// Event Listeners
+		addEventListener('mousemove', function (event) {
+			mouse.x = event.clientX;
+			mouse.y = event.clientY;
+		});
+
+		addEventListener('resize', function () {
+			canvas.width = innerWidth;
+			canvas.height = innerHeight;
+
+			init();
+		});
+
+		// Utility Functions
+		function randomIntFromRange(min, max) {
+			return Math.floor(Math.random() * (max - min + 1) + min);
+		}
+
+		function randomColor(colors) {
+			return colors[Math.floor(Math.random() * colors.length)];
+		}
+
+		// Objects
+		function Particle(x, y, radius, color) {
+			var _this = this;
+
+			var distance = randomIntFromRange(40, 100);
+			this.x = x;
+			this.y = y;
+			this.radius = radius;
+			this.color = color;
+			this.radians = Math.random() * Math.PI * 2;
+			this.velocity = 0.05;
+			this.distanceFromCenter = {
+				x: distance,
+				y: distance
+			};
+			this.prevDistanceFromCenter = {
+				x: distance,
+				y: distance
+			};
+			this.lastMouse = {
+				x: x,
+				y: y
+			};
+
+			this.update = function () {
+				var lastPoint = {
+					x: _this.x,
+					y: _this.y
+				};
+				// Move points over time
+				_this.radians += _this.velocity;
+
+				// Drag effect
+				_this.lastMouse.x += (mouse.x - _this.lastMouse.x) * 0.05;
+				_this.lastMouse.y += (mouse.y - _this.lastMouse.y) * 0.05;
+
+				// Circular Motion
+				_this.distanceFromCenter.x = _this.prevDistanceFromCenter.x + Math.sin(_this.radians) * 100;
+				_this.distanceFromCenter.y = _this.prevDistanceFromCenter.x + Math.sin(_this.radians) * 100;
+
+				_this.x = _this.lastMouse.x + Math.cos(_this.radians) * _this.distanceFromCenter.x;
+				_this.y = _this.lastMouse.y + Math.sin(_this.radians) * _this.distanceFromCenter.y;
+
+				_this.draw(lastPoint);
+			};
+
+			this.draw = function (lastPoint) {
+				c.beginPath();
+				c.strokeStyle = _this.color;
+				c.lineWidth = _this.radius;
+				c.moveTo(lastPoint.x, lastPoint.y);
+				c.lineTo(_this.x, _this.y);
+				c.stroke();
+				c.closePath();
+			};
+		}
+
+		// Implementation
+		var particles = undefined;
+
+		function init() {
+			particles = [];
+
+			for (var i = 0; i < 50; i++) {
+				var radius = Math.random() * 2 + 1;
+				particles.push(new Particle(canvas.width / 2, canvas.height / 2, radius, randomColor(colors)));
+			}
+		}
+
+		// Animation Loop
+		function animate() {
+			requestAnimationFrame(animate);
+			c.fillStyle = 'rgba(255, 255, 255, 0.05)';
+			c.fillRect(0, 0, canvas.width, canvas.height);
+
+			particles.forEach(function (particle) {
+				particle.update();
+			});
+		}
+
+		init();
+		animate();
+
+		zh.getElementsByTagName("a")[1].onclick = function () {
+			var val1 = Number(txt1.value),
+				val2 = Number(txt2.value);
+			if (txt1.value == "" || isNaN(val1) || txt2.value == "" || isNaN(val2) || fh.innerHTML == "") {
+				ts.innerHTML = "你家计算机能算非数字啊？要写全了，笨蛋~";
+				return;
+			} else {
+				ts.innerHTML = "这不就写对了嘛~";
+			}
+			var res;
+			switch (true) {
+				case fh.innerHTML == "+":
+					res = val1 + val2;
+					break;
+				case fh.innerHTML == "-":
+					res = val1 - val2;
+					break;
+				case fh.innerHTML == "×":
+					res = val1 * val2;
+					break;
+				case fh.innerHTML == "÷":
+					res = (val1 / val2).toFixed(5);
+					break;
+				case fh.innerHTML == "%":
+					res = val1 % val2;
+					break;
+			}
+			result.value = res;
+		}
+		for (var i = 0; i < fh5.getElementsByTagName("a").length; i++) {
+			fh5.getElementsByTagName("a")[i].index = i;
+			fh5.getElementsByTagName("a")[i].onclick = function () {
+				fh.innerHTML = this.innerHTML;
+			}
+
+		}
+
+		for (var i = 0; i < bigfh.getElementsByTagName("span")[1].getElementsByTagName("a").length; i++) {
+			bigfh.getElementsByTagName("span")[1].getElementsByTagName("a")[i].index = i;
+			bigfh.getElementsByTagName("span")[1].getElementsByTagName("a")[i].onclick = function () {
+				fh.innerHTML = this.innerHTML;
+			}
+
+		}
+		for (var i = 0; i < down.getElementsByTagName("a").length; i++) {
+			down.getElementsByTagName("a")[i].index = i;
+			down.getElementsByTagName("a")[i].onclick = function () {
+				//					if(fh.innerHTML==false){
+				//					txt1.value+=this.innerHTML;
+				//					}else{
+				//					txt2.value+=this.innerHTML;
+				//					}
+				fh.innerHTML == false ? txt1.value += this.innerHTML : txt2.value += this.innerHTML;
+			}
+		}
+		zh.getElementsByTagName("a")[0].onclick = () => {
+			txt1.value = "",
+				txt2.value = "",
+				fh.innerHTML = "",
+				result.value = "";
+			ts.innerHTML = "只能写数字或小数哦~"
+		}
+	</script>
+
+</body>
+
+</html>
