@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>键盘控制盒子走</title>
+<style>
+
+*
+{
+	margin: 0px;
+	padding: 0px;
+}
+
+html,body
+{
+	width: 100%;
+	height: 100%;
+}
+
+#box
+{
+	width: 100px;
+	height: 100px;
+	background: #ffaa00;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	border-radius:30%; 
+}
+
+</style>
+<script>
+
+
+window.onload = function()
+{
+	var box = document.getElementById('box');
+	var timer = null;
+	var left = 80;
+	var left1 = left;
+	var top = 80;
+	var top1 = top;
+
+	document.onkeydown = function(evt)
+	{
+		var e = evt || window.event;
+		var c = e.keyCode;
+		if(c == 37)
+		{
+			to_Left();
+		}
+		else if(c == 39)
+		{
+			to_Right();
+		}
+		else if(c == 38)
+		{
+			to_Top();
+		}
+		else if(c == 40)
+		{
+			to_Bottom();
+		}
+	}
+
+	document.onkeyup = function(evt)
+	{
+		var e = evt || window.event;
+		var c = e.keyCode;
+		if(c == 37 || c == 38 || c == 39 || c == 40)
+		{
+			clearInterval(timer);
+		}
+	}
+
+	function to_Left()
+	{
+		clearInterval(timer);
+		timer = setInterval(function()
+		{
+			if(box.offsetWidth + box.offsetLeft > box.offsetWidth + left1)
+			{
+				left -= left1;
+			}else
+			{
+				left = 0;
+			}
+			box.style.left = left + 'px';
+		},20)
+	}
+
+	function to_Right()
+	{
+		clearInterval(timer);
+		timer = setInterval(function()
+		{
+			if( box.offsetWidth + box.offsetLeft < window.innerWidth - left1)
+			{
+				left += left1;
+			}else
+			{
+				left =  window.innerWidth - box.offsetWidth;
+			}
+			box.style.left = left + 'px';
+		},20)
+	}
+
+	function to_Top()
+	{
+		clearInterval(timer);
+		timer = setInterval(function()
+		{
+			if(box.offsetHeight + box.offsetTop > box.offsetHeight + top1)
+			{
+				top -= top1;
+			}else
+			{
+				top = 0;
+			}
+			box.style.top = top + 'px';
+		},20)
+	}
+
+	function to_Bottom()
+	{
+		clearInterval(timer);
+		timer = setInterval(function()
+		{
+			if( box.offsetHeight + box.offsetTop < window.innerHeight - top1)
+			{
+				top += top1;
+			}else
+			{
+				top =  window.innerHeight - box.offsetHeight;
+			}
+			box.style.top = top + 'px';
+		},20)
+	}
+}
+
+</script>
+</head>
+<body>
+<div id="box"></div>
+</body>
+</html>
