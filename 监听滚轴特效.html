@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>厚度</title>
+    <style>
+        body{
+            perspective: 600px;
+            height: 2800px;
+        }
+       div{
+            width: 500px;
+            height: 200px;
+            background: pink;
+            top:800px; 
+            margin:0 auto;
+            transform:scaleZ(3) rotateY(0);
+            position: relative;
+        }
+        #box2{
+            background: green;
+            top:1200px; 
+        }
+        #box3{
+            background: blue;
+            top:1500px; 
+        }
+        #box4{
+            background: skyblue;
+            top:1800px; 
+        }
+        #box5{
+            background: red;
+            top:2100px; 
+        }
+        
+        @keyframes g{
+            25%{transform:rotateX(40deg)}
+            50%{transform:rotateX(-27deg)}
+            75%{transform:rotateX(15deg)}
+        }
+        .active{
+            animation:g 1s 1; 
+        }
+    </style>
+</head>
+<body>
+        <div id="box"></div>
+        <div id="box2"></div>
+        <div id="box3"></div>
+        <div id="box4"></div>
+        <div id="box5"></div>
+        
+    <script>
+        var _div = document.querySelectorAll('div');
+        // for(var i=0;i<_div.length;i++){
+        //     (function(index){
+                window.onscroll = function(){
+                    var scrollTop = document.body.scrollTop||document.documentElement.scrollTop;
+                    // if(scrollTop == 700){
+                    //     box.style.animation = "g 1s 1"
+                    // }
+                    for(var j=0;j<_div.length;j++){
+						if(scrollTop >= _div[j].offsetTop-window.innerHeight+box.offsetHeight/2 && scrollTop <= _div[j].offsetTop+box.offsetHeight/2){
+                        console.log(_div[1].offsetTop);
+                            _div[j].className = "active"
+                        }else{
+                            _div[j].className = "";
+						}
+					}
+                }
+        //     })(i)    
+        // }
+    </script>
+</body>
+</html>
